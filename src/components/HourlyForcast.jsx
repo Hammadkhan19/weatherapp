@@ -5,18 +5,13 @@ const HourlyForecast = ({ forecast, onhourSelect, convertTemp, timezoneOffset })
   const { unit } = useTempUnit();
   const [selectedHour, setSelectedHour] = useState(null);
 
-  // Adjust the time based on timezone offset
   const formatTime = (timestamp) => {
-    // Convert the timezone offset from seconds to milliseconds
-    const localTimestamp = (timestamp + timezoneOffset) * 1000; // Convert to milliseconds
+    const localTimestamp = (timestamp + timezoneOffset) * 1000;
     const date = new Date(localTimestamp);
-
-    // Extract hours and minutes
-    const hours = date.getUTCHours(); // Use getUTCHours() to avoid issues with local timezone
+    const hours = date.getUTCHours();
     const minutes = date.getUTCMinutes().toString().padStart(2, "0");
     const period = hours >= 12 ? "PM" : "AM";
     const formattedHours = hours % 12 === 0 ? 12 : hours % 12;
-
     return `${formattedHours}:${minutes} ${period}`;
   };
 
@@ -26,21 +21,28 @@ const HourlyForecast = ({ forecast, onhourSelect, convertTemp, timezoneOffset })
   };
 
   return (
-    <div className="mt-10">
+    <div className="mt-10 ">
       <h2 className="text-gray-400 text-lg text-center mb-2">Today's Forecast</h2>
-      <div className="flex lg:justify-center overflow-x-auto space-x-4 pb-4">
+      <div className="flex lg:justify-center overflow-x-auto  space-x-4 p-2 pt-4 pb-4">
         {forecast.map((hourData, index) => (
           <div
             key={index}
-            className={`border border-gray-700 bg-gray-800 p-3 rounded-lg min-w-[100px] cursor-pointer transition-all duration-200 
+            className={`border p-3 rounded-lg min-w-[100px] cursor-pointer transition-all duration-200 
               flex flex-col items-center justify-center h-[160px] max-w-[120px]
-              ${selectedHour === hourData.dt ? "shadow-2xl bg-gray-700" : ""}
+              ${selectedHour === hourData.dt
+                ? "bg-gradient-to-r from-blue-500 to-purple-600 scale-105 border-2 border-blue-300 shadow-xl"
+                : "bg-gray-800 border-gray-700 hover:bg-gray-700 hover:shadow-lg"
+              }
             `}
             onClick={() => handleCardClick(hourData)}
           >
             <h3 className="text-center text-sm font-semibold">{formatTime(hourData.dt)}</h3>
-            <p className="text-center text-xs">Temp: {convertTemp(hourData.main.temp).toFixed(1)} °{unit}</p>
-            <p className="text-center text-xs text-gray-400">{hourData.weather[0].description}</p>
+            <p className="text-center text-xs">
+              Temp: {convertTemp(hourData.main.temp).toFixed(1)} °{unit}
+            </p>
+            <p className="text-center text-xs text-gray-400">
+              {hourData.weather[0].description}
+            </p>
             <img
               src={`http://openweathermap.org/img/wn/${hourData.weather[0].icon}.png`}
               alt={hourData.weather[0].description}
