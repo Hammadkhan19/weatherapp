@@ -6,7 +6,7 @@ const Searchbar = ({ selectedCity }) => {
   const [suggestions, setSuggestions] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  const apiKey = "1960b847ff7bb773c34b3a0e6056af71";
+  const apiKey = process.env.REACT_APP_API_KEY;
 
   const fetchcities = async (query) => {
     if (!query) return;

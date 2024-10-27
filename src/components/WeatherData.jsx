@@ -7,6 +7,7 @@ import FiveDayForecast from "./FiveDayForecast";
 import { useTempUnit } from "../context/TempUnitContext";
 import UnitToggle from "./UnitToggle";
 
+
 const WeatherData = () => {
   const [city, setCity] = useState("");
   const [weather, setWeather] = useState(null);
@@ -17,9 +18,11 @@ const WeatherData = () => {
   const [coords, setCoords] = useState({ lat: null, lon: null });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
   const { unit } = useTempUnit();
 
-  const apiKey = "1960b847ff7bb773c34b3a0e6056af71";
+  const apiKey = process.env.REACT_APP_API_KEY;
+
 
   const convertTemp = (temp) => {
     if (unit === "F") return (temp * 9) / 5 + 32;
