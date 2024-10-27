@@ -5,8 +5,7 @@ const Searchbar = ({ selectedCity }) => {
   const [inputvalue, setInputvalue] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-
-  const apiKey = process.env.REACT_APP_API_KEY;
+  const apiKey = import.meta.env.VITE_API_KEY;
 
   const fetchcities = async (query) => {
     if (!query) return;

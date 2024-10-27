@@ -21,8 +21,7 @@ const WeatherData = () => {
 
   const { unit } = useTempUnit();
 
-  const apiKey = process.env.REACT_APP_API_KEY;
-
+  const apiKey = import.meta.env.VITE_API_KEY;
 
   const convertTemp = (temp) => {
     if (unit === "F") return (temp * 9) / 5 + 32;
