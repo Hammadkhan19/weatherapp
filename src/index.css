@@ -1,0 +1,10 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+body {
+    @apply bg-gray-900 text-white; /* Applies dark background and white text */
+    min-height: 100vh; /* Ensures it covers full viewport height */
+  }
+  
