@@ -19,7 +19,7 @@ const WeatherData = () => {
   const { unit } = useTempUnit();
 
   const apiKey = import.meta.env.VITE_API_KEY; // replace with your OpenWeatherMap API key
-  const DEFAULT_CITY = "New York"; 
+  const DEFAULT_CITY = "New York";
   const convertTemp = (temp) => {
     if (unit === "F") return (temp * 9) / 5 + 32;
     if (unit === "K") return temp + 273.15;
@@ -168,16 +168,71 @@ const WeatherData = () => {
       weather: hour.weather,
     }));
   };
-
+  const iconMapping = {
+    200: "thunderstorm",
+    201: "thunderstorm",
+    202: "thunderstorm",
+    210: "thunderstorm",
+    211: "thunderstorm",
+    212: "thunderstorm",
+    221: "thunderstorm",
+    230: "thunderstorm",
+    231: "thunderstorm",
+    232: "thunderstorm",
+    300: "sprinkle",
+    301: "drizzle",
+    302: "drizzle",
+    310: "rain-mix",
+    311: "rain",
+    312: "rain",
+    313: "rain",
+    314: "rain",
+    321: "sprinkle",
+    500: "rain",
+    501: "rain",
+    502: "rain",
+    503: "rain",
+    504: "rain",
+    511: "rain-mix",
+    520: "rain",
+    521: "rain",
+    522: "rain",
+    531: "rain",
+    600: "snow",
+    601: "snow",
+    602: "snow",
+    611: "sleet",
+    612: "sleet",
+    615: "rain-mix",
+    616: "rain-mix",
+    620: "snow",
+    621: "snow",
+    622: "snow",
+    701: "fog",
+    711: "smoke",
+    721: "fog",
+    731: "dust",
+    741: "fog",
+    751: "sandstorm",
+    761: "dust",
+    762: "dust",
+    771: "fog",
+    781: "tornado",
+    800: "day-sunny",
+    801: "day-cloudy",
+    802: "day-cloudy",
+    803: "cloudy",
+    804: "overcast",
+  };
   return (
-    <div className="mx-5 md:mx-20 mt-10">
+    <div className="mx-5 md:mx-20 mt-10 ">
       <div className="flex flex-col sm:flex-row sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-4">
         <h3 className="font-semibold text-left sm:ml-5">Change Unit</h3>
         <div className="flex flex-col sm:flex-row sm:items-center space-y-4 sm:space-y-0 sm:space-x-4">
           <UnitToggle />
           <Searchbar selectedCity={handleCitySelect} />
         </div>
-      </div>
+      </div> 
       {errorMessage && (
         <div className="flex flex-col items-center justify-center mt-5">
           <p className="text-white text-center mb-3">{errorMessage}</p>
@@ -186,7 +241,7 @@ const WeatherData = () => {
       )}
 
       {weather && (
-        <div className="flex flex-col md:flex-row items-start md:items-center justify-between bg-gray-800 text-white p-5 rounded-lg shadow-lg mt-5">
+        <div className="flex flex-col md:flex-row items-start md:items-center justify-between bg-gray-800 text-white p-10 rounded-lg shadow-lg mt-5">
           <div className="md:w-2/3 text-left">
             <h2 className="text-3xl sm:text-4xl font-bold">{weather.name}</h2>
             <p className="text-sm text-gray-400">
@@ -202,11 +257,10 @@ const WeatherData = () => {
               <p className="text-sm text-gray-400 mt-2">{selectedDay}</p>
             )}
           </div>
-          <img
-            src={`http://openweathermap.org/img/wn/${weather.weather[0].icon}.png`}
-            alt={weather.weather[0].description}
-            className="w-24 h-24 sm:w-32 sm:h-32 md:w-40 md:h-40 object-contain mt-5 md:mt-0 ml-auto"
-          />
+          <i
+            className={`wi wi-${iconMapping[weather.weather[0].id]} text-7xl sm:text-8xl md:text-9xl mt-5 md:mt-0 ml-auto text-white`}
+            aria-label={weather.weather[0].description}
+          ></i>
         </div>
       )}
       <HourlyForecast
