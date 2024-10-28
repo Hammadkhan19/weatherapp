@@ -19,7 +19,7 @@ const WeatherData = () => {
   const { unit } = useTempUnit();
 
   const apiKey = import.meta.env.VITE_API_KEY; // replace with your OpenWeatherMap API key
-
+  const DEFAULT_CITY = "New York"; 
   const convertTemp = (temp) => {
     if (unit === "F") return (temp * 9) / 5 + 32;
     if (unit === "K") return temp + 273.15;
@@ -79,17 +79,15 @@ const WeatherData = () => {
             fetchHourlyByCoords(latitude, longitude);
           },
           (error) => {
-            if (error.code === error.PERMISSION_DENIED) {
-              setErrorMessage("Location access denied. Please enable location to get weather data.");
-            } else {
-              setErrorMessage("Error obtaining location.");
-            }
-            console.log("Error obtaining location:", error);
+            setErrorMessage("Turn on Location for your City Weather!");
+            fetchWeather(DEFAULT_CITY);
+            fetchHourly(DEFAULT_CITY);
           }
         );
       } else {
-        setErrorMessage("Geolocation is not supported by this browser.");
-        console.log("Geolocation is not supported by this browser.");
+        setErrorMessage("Geolocation is not supported by this browser. Showing weather for default city.");
+        fetchWeather(DEFAULT_CITY);
+        fetchHourly(DEFAULT_CITY);
       }
     };
 
@@ -182,7 +180,7 @@ const WeatherData = () => {
       </div>
       {errorMessage && (
         <div className="flex flex-col items-center justify-center mt-5">
-          <p className="text-red-500 text-center mb-3">{errorMessage}</p>
+          <p className="text-white text-center mb-3">{errorMessage}</p>
 
         </div>
       )}
