@@ -79,7 +79,7 @@ const WeatherData = () => {
             fetchHourlyByCoords(latitude, longitude);
           },
           (error) => {
-            setErrorMessage("Turn on Location for your City Weather!");
+            setErrorMessage("Turn on Location for your Location Weather!");
             fetchWeather(DEFAULT_CITY);
             fetchHourly(DEFAULT_CITY);
           }
@@ -134,13 +134,7 @@ const WeatherData = () => {
       console.log("Error fetching forecast data:", error);
     }
   };
- // Fetch weather automatically when coords update
- useEffect(() => {
-  if (coords.lat && coords.lon) {
-    fetchWeatherByCoords(coords.lat, coords.lon);
-    fetchHourlyByCoords(coords.lat, coords.lon);
-  }
-}, [coords]);
+
   const handleCitySelect = (selectedCity) => {
     setCity(selectedCity.name);
     fetchWeather(selectedCity.name);
