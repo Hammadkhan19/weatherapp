@@ -134,7 +134,13 @@ const WeatherData = () => {
       console.log("Error fetching forecast data:", error);
     }
   };
-
+ // Fetch weather automatically when coords update
+ useEffect(() => {
+  if (coords.lat && coords.lon) {
+    fetchWeatherByCoords(coords.lat, coords.lon);
+    fetchHourlyByCoords(coords.lat, coords.lon);
+  }
+}, [coords]);
   const handleCitySelect = (selectedCity) => {
     setCity(selectedCity.name);
     fetchWeather(selectedCity.name);
