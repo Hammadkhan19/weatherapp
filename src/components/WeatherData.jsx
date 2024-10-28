@@ -14,6 +14,7 @@ const WeatherData = () => {
   const [fiveDayForecast, setFiveDayForecast] = useState([]);
   const [selectedDay, setSelectedDay] = useState(null);
   const [timezoneOffset, setTimezoneOffset] = useState(0);
+  const [errorMessage, setErrorMessage] = useState("");
   const [coords, setCoords] = useState({ lat: null, lon: null });
   const { unit } = useTempUnit();
 
@@ -67,7 +68,6 @@ const WeatherData = () => {
     }
   };
 
-  // Request user's current location
   useEffect(() => {
     const getLocation = () => {
       if (navigator.geolocation) {
@@ -79,17 +79,22 @@ const WeatherData = () => {
             fetchHourlyByCoords(latitude, longitude);
           },
           (error) => {
+            if (error.code === error.PERMISSION_DENIED) {
+              setErrorMessage("Location access denied. Please enable location to get weather data.");
+            } else {
+              setErrorMessage("Error obtaining location.");
+            }
             console.log("Error obtaining location:", error);
           }
         );
       } else {
+        setErrorMessage("Geolocation is not supported by this browser.");
         console.log("Geolocation is not supported by this browser.");
       }
     };
 
     getLocation();
   }, []);
-
   // Fetch weather data by city name (fallback if user selects a city manually)
   const fetchWeather = async (selectedCity) => {
     try {
@@ -175,6 +180,12 @@ const WeatherData = () => {
           <Searchbar selectedCity={handleCitySelect} />
         </div>
       </div>
+      {errorMessage && (
+        <div className="flex flex-col items-center justify-center mt-5">
+          <p className="text-red-500 text-center mb-3">{errorMessage}</p>
+
+        </div>
+      )}
 
       {weather && (
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between bg-gray-800 text-white p-5 rounded-lg shadow-lg mt-5">
@@ -211,14 +222,14 @@ const WeatherData = () => {
         forecast={fiveDayForecast}
         onDaySelect={handleDaySelect}
       />
-   
+
       <AirConditions convertTemp={convertTemp} Air={weather} />
-      
+
       <footer className="bg-gray-900 text-gray-500 py-4 text-center mt-10">
-      <p className="text-sm">
-        © {new Date().getFullYear()} All rights reserved.
-      </p>
-    </footer>
+        <p className="text-sm">
+          © {new Date().getFullYear()} All rights reserved.
+        </p>
+      </footer>
     </div>
   );
 };
