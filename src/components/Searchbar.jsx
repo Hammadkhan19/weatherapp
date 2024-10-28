@@ -12,7 +12,7 @@ const Searchbar = ({ selectedCity }) => {
     setIsLoading(true);
     try {
       const response = await axios.get(
-        `http://api.openweathermap.org/geo/1.0/direct?q=${query}&limit=5&appid=${apiKey}`
+        `https://api.openweathermap.org/geo/1.0/direct?q=${query}&limit=5&appid=${apiKey}`
       );
       setSuggestions(response.data || []);
       setIsLoading(false);
